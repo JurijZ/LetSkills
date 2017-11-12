@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 
 namespace skillsBackend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class GetClientFeedbackSingleController : Controller
     {
         private readonly SkillsContext _context;

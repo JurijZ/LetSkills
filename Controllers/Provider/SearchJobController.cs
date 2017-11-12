@@ -14,7 +14,7 @@ using System.Net.Http.Headers;
 
 namespace skillsBackend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     //[EnableCors("default")]
     public class SearchJobController : Controller
     {

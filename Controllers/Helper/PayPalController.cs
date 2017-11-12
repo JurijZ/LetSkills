@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace skillsBackend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class PayPalController : Controller
     {
 

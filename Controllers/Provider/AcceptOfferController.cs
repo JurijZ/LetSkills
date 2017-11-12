@@ -16,7 +16,7 @@ using skillsBackend.Utilities;
 
 namespace skillsBackend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     //[EnableCors("default")]
     public class AcceptOfferController : Controller
     {

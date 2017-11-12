@@ -22,7 +22,7 @@ using Amazon.S3.Transfer;
 
 namespace skillsBackend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     //[EnableCors("default")]
     //api/uploadfiles
     public class UploadFilesController : Controller

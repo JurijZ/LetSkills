@@ -17,7 +17,7 @@ using Amazon.SimpleNotificationService.Model;
 
 namespace skillsBackend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     //[EnableCors("default")]
     public class SendTelVerificationSMSController : Controller
     {
