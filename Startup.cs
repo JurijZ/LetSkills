@@ -52,7 +52,7 @@ namespace skillsBackend
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(o =>
             {
-                o.Authority = "http://localhost:5000";
+                o.Authority = "http://localhost/identity";
                 o.Audience = "apiApp";
                 o.RequireHttpsMetadata = false;
             });
@@ -66,7 +66,7 @@ namespace skillsBackend
                 options.AddPolicy("default", policy =>
                 {
                     // http://localhost does not work as expected, I think there are some limitations
-                    policy.WithOrigins("http://localhost", "http://localhost:5002", "http://localhost:5005")
+                    policy.WithOrigins("http://localhost", "http://localhost/client", "http://localhost/provider")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
