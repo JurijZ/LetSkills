@@ -46,13 +46,14 @@ namespace skillsBackend
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("Hangfire")));
 
             // Adding JWT support
+            var stsServerUrl = Configuration.GetSection("Identity:stsServer"); // reads from the appsetings.json
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(o =>
             {
-                o.Authority = "http://localhost/identity";
+                o.Authority = stsServerUrl.Value; //"http://www.usefullskills.com/identity"
                 o.Audience = "apiApp";
                 o.RequireHttpsMetadata = false;
             });
@@ -66,7 +67,12 @@ namespace skillsBackend
                 options.AddPolicy("default", policy =>
                 {
                     // http://localhost does not work as expected, I think there are some limitations
-                    policy.WithOrigins("http://localhost", "http://localhost/client", "http://localhost/provider")
+                    policy.WithOrigins(//"http://localhost", 
+                                        //"http://localhost/client", 
+                                        //"http://localhost/provider",
+                                        "http://www.usefullskills.com",
+                                        "http://www.usefullskills.com/client",
+                                        "http://www.usefullskills.com/provider")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
@@ -88,7 +94,7 @@ namespace skillsBackend
             app.UseHangfireServer();
             app.UseHangfireDashboard();
 
-            // Run Offer exiry processing every (web interface http://localhost:5004/hangfire)
+            // Run Offer exiry processing every (web interface http://localhost/hangfire)
             //RecurringJob.AddOrUpdate(() => sch.ProcessExpiredOffers(), Cron.Minutely);
             //RecurringJob.AddOrUpdate(() => Console.WriteLine("Minutely Job executed"), Cron.Minutely);
             RecurringJob.AddOrUpdate(() => sch.ProcessExpiredOffers(), "*/1 * * * *");            
