@@ -25,7 +25,7 @@ namespace skillsBackend.Controllers
         // Retrieve all feedbacks of a specific Provider
         // GET api/getclientfeedbacks/3
         [HttpGet("{job_id}")]
-        //[Authorize]
+        [Authorize]
         public ClientFeedbackSingle Get(int job_id)
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)

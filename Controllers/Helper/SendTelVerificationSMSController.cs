@@ -31,6 +31,7 @@ namespace skillsBackend.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public string Post([FromBody] TelephoneNumber value)
         {
             Console.WriteLine("--Sending SMS to verify telephone: " + value.TelNumber 

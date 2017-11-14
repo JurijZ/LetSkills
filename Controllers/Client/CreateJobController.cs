@@ -27,6 +27,7 @@ namespace skillsBackend.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public string Post([FromBody] NewJob value)
         {
 

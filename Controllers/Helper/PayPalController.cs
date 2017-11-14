@@ -31,7 +31,7 @@ namespace skillsBackend.Controllers
 
         // GET api/getclienttoken
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public PayPalClientToken Get()
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)

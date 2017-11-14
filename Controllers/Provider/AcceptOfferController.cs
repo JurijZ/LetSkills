@@ -28,6 +28,7 @@ namespace skillsBackend.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public string Post([FromBody] AcceptOffer value)
         {
 

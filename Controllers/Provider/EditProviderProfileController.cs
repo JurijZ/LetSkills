@@ -26,7 +26,7 @@ namespace skillsBackend.Controllers
         
         // PUT api/editproviderprofile
         [HttpPut()]
-        //[Authorize]
+        [Authorize]
         public ActionResult Put([FromBody] EditProviderProfile value)
         {
 

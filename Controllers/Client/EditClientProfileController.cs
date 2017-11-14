@@ -26,7 +26,7 @@ namespace skillsBackend.Controllers
         
         // PUT api/editclientprofile
         [HttpPut()]
-        //[Authorize]
+        [Authorize]
         public ActionResult Put([FromBody] EditClientProfile value)
         {
 

@@ -28,6 +28,7 @@ namespace skillsBackend.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public string Post([FromBody] NewClientFeedback value)
         {
             Console.WriteLine("--Creating new Feedback for the provider: " + value.ProviderId);

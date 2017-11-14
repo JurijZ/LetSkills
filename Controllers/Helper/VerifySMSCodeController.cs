@@ -27,6 +27,7 @@ namespace skillsBackend.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public string Post([FromBody] SMSCode value)
         {
             Console.WriteLine("--Verify SMS Code: " + value.Code + " for the telephone " + value.TelNumber);

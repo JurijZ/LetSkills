@@ -26,7 +26,7 @@ namespace skillsBackend.Controllers
 
         // PUT api/editjob/5
         [HttpPut("{id}")]
-        //[Authorize]
+        [Authorize]
         public ActionResult Put(int id, [FromBody] JobUpdate value)
         {
 

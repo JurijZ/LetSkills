@@ -25,7 +25,7 @@ namespace skillsBackend.Controllers
 
         // GET api/clientprofile
         [HttpGet("{job_id}")]
-        //[Authorize]
+        [Authorize]
         public OfferProvider Get(int job_id)
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)

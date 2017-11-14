@@ -38,6 +38,7 @@ namespace skillsBackend.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Post()
         {
             // Prepare variables

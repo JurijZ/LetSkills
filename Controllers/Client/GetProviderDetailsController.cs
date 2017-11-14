@@ -25,7 +25,7 @@ namespace skillsBackend.Controllers
 
         // GET api/providerprofile
         [HttpGet("{provider_id}")]
-        //[Authorize]
+        [Authorize]
         public ProviderDetails Get(int provider_id)
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)

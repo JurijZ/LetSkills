@@ -25,7 +25,7 @@ namespace skillsBackend.Controllers
 
         // GET api/myjobs
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public IEnumerable<ProviderJobs> Get()
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
