@@ -67,12 +67,17 @@ namespace skillsBackend
                 options.AddPolicy("default", policy =>
                 {
                     // http://localhost does not work as expected, I think there are some limitations
-                    policy.WithOrigins(//"http://localhost", 
-                                        //"http://localhost/client", 
-                                        //"http://localhost/provider",
-                                        "http://www.usefullskills.com",
-                                        "http://www.usefullskills.com/client",
-                                        "http://www.usefullskills.com/provider")
+                    policy.WithOrigins("http://localhost", 
+                                       "http://localhost/client", 
+                                       "http://localhost/provider",
+                                       "http://localhost:5002",                                       
+                                       "http://localhost:5002/client",
+                                       "http://localhost:5005",
+                                       "http://localhost:5005/provider",
+                                       "http://www.usefullskills.com",
+                                       "http://www.usefullskills.com/client",
+                                       "http://www.usefullskills.com/provider"
+                                        )
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });

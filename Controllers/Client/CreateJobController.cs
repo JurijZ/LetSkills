@@ -31,14 +31,19 @@ namespace skillsBackend.Controllers
         public string Post([FromBody] NewJob value)
         {
 
-            Console.WriteLine("--" + value.PlannedStartDate);
-            Console.WriteLine("--" + value.PlannedFinishDate);
+            // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
+            var user = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
+
+            Console.WriteLine("Authenticated user name is: " + user.Value); //it's in a {key: value} format
+            var userName = user.Value;
+            
+            var userDetails = _context.Users.Where(u => u.Username == user.Value).FirstOrDefault();
 
             // !!!!! NOTE - all the inserts must be in one SQL transaction
             // Insert into the Jobs table 
             var newJob = new Jobs
             {
-                ClientId = 1,
+                ClientId = userDetails.Id,
                 JobTitle = value.JobTitle,
                 RatePerHour = value.RatePerHour,
                 RateFixed = value.RateFixed,
@@ -101,7 +106,7 @@ namespace skillsBackend.Controllers
             {
                 return jobSkill.Id;
             }
-            return 16; // 16 - General
+            return 10; // 10 - General Skill
         }
 
         // GET api/joblocation/5

@@ -29,18 +29,14 @@ namespace skillsBackend.Controllers
         public ClientBalance Get()
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
-            //var userName = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
-            //Console.WriteLine("Authenticated user name is: " + userName.Value); //it's in a JSON format - name: value
+            var user = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
+
+            Console.WriteLine("Authenticated user name is: " + user.Value); //it's in a {key: value} format
+            var userName = user.Value;
+
+            //string userName = "jzilcov@gmail.com"; // This value will be taken from the JWT claim
+            //Console.WriteLine("-- GetClientProfile - Hardcoded user name: " + userName);
             
-            string userName = "jz@gmail.com"; // This value will be taken from the JWT claim
-            Console.WriteLine("-- GetClientBalance - Hardcoded user name: " + userName);
-
-            // retrieve image urls
-            //var imageUrls = (from i in _context.JobImages
-            //                 where i.JobId == job_id
-            //                 select i.Url).ToArray();
-
-
             var clientBalance = (from u in _context.Users 
                                 join w in _context.Wallet on u.Id equals w.UserId
                                 where u.Username == userName
