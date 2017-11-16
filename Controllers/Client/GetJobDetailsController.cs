@@ -29,10 +29,9 @@ namespace skillsBackend.Controllers
         public SingleJobDetails Get(int job_id)
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
-            var user = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
-
-            Console.WriteLine("Authenticated user name is: " + user.Value); //it's in a {key: value} format
-            var userName = user.Value;
+            var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
+            Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
+            var userName = jwtuser.Value;
 
             Console.WriteLine("Requested Job ID: " + job_id);
             
@@ -41,7 +40,7 @@ namespace skillsBackend.Controllers
                              where i.JobId == job_id
                              select i.Url).ToArray();
             
-            // get job details (assigns the ImageUrls array into the Images property)
+            // get job details (assigns the ImageUrls array into the images property)
             var jobDetails = (from j in _context.Jobs
                               join u in _context.Users on j.ClientId equals u.Id
                               join d in _context.JobDetails on j.Id equals d.JobId into jd // this into jd is needed to do the LEFT JOIN

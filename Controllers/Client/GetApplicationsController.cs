@@ -29,12 +29,10 @@ namespace skillsBackend.Controllers
         public IEnumerable<Providers> Get(int job_id)
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
-            //var userName = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
-            //Console.WriteLine("Authenticated user name is: " + userName.Value); //it's in a JSON format - name: value
-            
-            string userName = "jz@gmail.com"; // This value will be taken from the JWT claim
-            
-            
+            var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
+            Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
+            var userName = jwtuser.Value;
+
             //var providerSkills = (from u in _context.Users
             //                      join upd in _context.UserProviderDetails on u.Id equals upd.UserId
             //                      join mps in _context.MapProviderSkills on upd.Id equals mps.ProviderId

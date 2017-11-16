@@ -29,10 +29,10 @@ namespace skillsBackend.Controllers
         public IEnumerable<ClientCompletedJobs> Get()
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
-            //var userName = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
-            //Console.WriteLine("Authenticated user name is: " + userName.Value); //it's in a JSON format - name: value
-            
-            string userName = "jz@gmail.com"; // This value will be taken from the JWT claim
+            var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
+            Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
+            var userName = jwtuser.Value;
+
             var user = _context.Users.FirstOrDefault(j => j.Username == userName);
 
             Console.WriteLine("-- GetClientCompletedJobs of the client ID: " + user.Id);            

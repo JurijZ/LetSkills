@@ -61,7 +61,7 @@ namespace skillsBackend.Controllers
                 //var fullPath = Path.GetTempFileName();
                 //fullPath = hostingEnv.WebRootPath + $@"\{filename}";
                 string fileName = GetRandomNumber() + GetCurrentDate() + extension;
-                string fullPath = @"D:\LetSkillsImages\Images\" + fileName;
+                string fullPath = @"C:\LetSkillsImages\Images\" + fileName;
                 Console.WriteLine("File Path: " + fullPath);
 
                 // Write file do disk

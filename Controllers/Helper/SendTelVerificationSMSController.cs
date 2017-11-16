@@ -37,7 +37,11 @@ namespace skillsBackend.Controllers
             Console.WriteLine("--Sending SMS to verify telephone: " + value.TelNumber 
                                 + " for the ObjectId: " + value.ObjectId            // Job Id or User ID
                                 + " of the ObjectIdType: " + value.ObjectIdType);   // 0 - Job, 1 - Provider, 2 - Client???
-            string userName = "jz@gmail.com"; // This value will be taken from the JWT claim
+
+            // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
+            var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
+            Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
+            var userName = jwtuser.Value;
 
             //-------------------- Sending SMS via Amazon SNS
             var smsCode = GenerateRandomPIN();                                  // Generate random 4 digits pin

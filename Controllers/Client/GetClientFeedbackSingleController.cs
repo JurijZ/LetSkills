@@ -28,11 +28,12 @@ namespace skillsBackend.Controllers
         [Authorize]
         public ClientFeedbackSingle Get(int job_id)
         {
+            // Note - userName is not used in this Controller, any client can look for the rovider feedbacks
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
-            //var userName = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
-            //Console.WriteLine("Authenticated user name is: " + userName.Value); //it's in a JSON format - name: value
-            
-            //string userName = "jz@gmail.com"; // This value will be taken from the JWT claim
+            //var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
+            //Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
+            //var userName = jwtuser.Value;
+
             Console.WriteLine("-- GetClientFeedbackSingle for the Job ID: " + job_id);            
 
             var clientFeedbackSingle = (from f in _context.FeedbackFromClients 

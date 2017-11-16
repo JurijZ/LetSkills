@@ -23,24 +23,18 @@ namespace skillsBackend.Controllers
             _context = context;
         }
 
-        // GET api/clientprofile
+        // GET api/offerprovider/job_id
         [HttpGet("{job_id}")]
         [Authorize]
         public OfferProvider Get(int job_id)
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
-            //var userName = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
-            //Console.WriteLine("Authenticated user name is: " + userName.Value); //it's in a JSON format - name: value
-            
-            //string userName = "jz@gmail.com"; // This value will be taken from the JWT claim
+            //var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
+            //Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
+            //var userName = jwtuser.Value;
+
             Console.WriteLine("-- GetOfferProvider - for the JobID: " + job_id);
-
-            // retrieve image urls
-            //var imageUrls = (from i in _context.JobImages
-            //                 where i.JobId == job_id
-            //                 select i.Url).ToArray();
-
-
+            
             var offerProvider = (from o in _context.Offers
                                  where o.JobId == job_id
                                  where o.AcceptanceStatus != 0  // Not expired jobs only
@@ -49,10 +43,6 @@ namespace skillsBackend.Controllers
                                     providerId = o.ProviderId
                                 }).SingleOrDefault();
 
-            //foreach (var jobDetail in jobDetails)
-            //{
-            //    Console.WriteLine("Job Title: " + jobDetail.jobTitle);
-            //}
             if (offerProvider != null)
             {
                 Console.WriteLine("-- GetOfferProvider - Provider ID: " + offerProvider.providerId);

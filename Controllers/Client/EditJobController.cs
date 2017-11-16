@@ -31,14 +31,22 @@ namespace skillsBackend.Controllers
         {
 
             Console.WriteLine("Updating existing Job: " + id);
-            
-            // Retrieve objects related to the received id
-            var job = _context.Jobs.FirstOrDefault(j => j.Id == id);
+
+            // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
+            var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
+            Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
+            var userName = jwtuser.Value;
+
+            // Retrieve objects related to the received id and username
+            //var user = _context.Users.FirstOrDefault(u => u.Username == userName);
+            //var job = _context.Jobs.FirstOrDefault(j => j.Id == id & j.ClientId == user.Id);
+            var job = (from j in _context.Jobs
+                       join u in _context.Users on j.ClientId equals u.Id
+                       where u.Username == userName && j.Id == id
+                       select j).SingleOrDefault();
             var jobDetails = _context.JobDetails.FirstOrDefault(jd => jd.JobId == id);
             var oldImages = _context.JobImages.Where(i => i.JobId == id); // this needs to consider 2 things: update new images and remove deleted, skipping this for now
-
-            Console.WriteLine("New job title: " + value.jobTitle);
-
+            
             // Procede with update if the job id exist
             if (job != null)
             {
@@ -74,6 +82,7 @@ namespace skillsBackend.Controllers
                         foreach (var oldImage in oldImages)
                         {
                             _context.JobImages.Remove(oldImage);
+                            // add a logic to record deleted image Urls, for cleaning up S3
                         }
                         _context.SaveChanges();
                     }
@@ -98,11 +107,10 @@ namespace skillsBackend.Controllers
             }
             else
             {
-                Console.WriteLine("Job ID: " + id + " does not exist");
+                Console.WriteLine("Job ID: " + id + " for the user " + userName + " does not exist");
                 return NotFound();
             }
-            //return new job id back to Angular;
-            //return existingJob.Id.ToString();
+
             return Ok();
         }
 
