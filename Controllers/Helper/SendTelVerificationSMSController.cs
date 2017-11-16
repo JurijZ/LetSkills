@@ -117,7 +117,7 @@ namespace skillsBackend.Controllers
             mobileNumber = mobileNumber.Replace("(", string.Empty).Replace(")", string.Empty);
             mobileNumber = mobileNumber.Replace("[", string.Empty).Replace("]", string.Empty);
 
-            // Remove leading plus and any minuses
+            // Remove leading plus and any minuses (in the UK SNS uses numbers without leading plus)
             mobileNumber = mobileNumber.Replace("+", string.Empty).Replace("-", string.Empty);
             
             // Remove spaces
@@ -160,7 +160,7 @@ namespace skillsBackend.Controllers
 
                     var snsRequest = new PublishRequest()
                     {
-                        PhoneNumber = "447565111967",   // plus is not needed for the UK numbers
+                        PhoneNumber = telephone,   // plus is not needed for the UK numbers
                         Message = code,
                         MessageAttributes = smsAttributes
                     };

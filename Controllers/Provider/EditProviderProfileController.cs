@@ -29,15 +29,18 @@ namespace skillsBackend.Controllers
         [Authorize]
         public ActionResult Put([FromBody] EditProviderProfile value)
         {
+            // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
+            var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
+            Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
+            var userName = jwtuser.Value;
 
-            string userName = "jz@gmail.com"; // This value will be taken from the JWT claim
             Console.WriteLine("Updating Provider profile: " + userName);
 
             // Retrieve objects related to the authorized user 
             // (!!! it is assumed that all these tables are populated when the account was first created)
             var user = _context.Users.FirstOrDefault(j => j.Username == userName);
             var userProviderDetails = _context.UserProviderDetails.FirstOrDefault(upd => upd.UserId == user.Id);
-            var address = _context.Address.FirstOrDefault(i => i.UserId == user.Id); // this needs to consider 2 things: update new images and remove deleted, skipping this for now
+            //var address = _context.Address.FirstOrDefault(i => i.UserId == user.Id); // this needs to consider 2 things: update new images and remove deleted, skipping this for now
             var newProviderSkills = _context.Skills.Where(s => value.skills.Contains(s.Name)); // select rows that match arrived skills
             var currentSkillIDs = _context.MapProviderSkills.Where(mps => mps.ProviderId == userProviderDetails.Id);
 
