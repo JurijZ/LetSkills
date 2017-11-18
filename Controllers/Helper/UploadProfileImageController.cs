@@ -24,7 +24,6 @@ namespace skillsBackend.Controllers
 {
     [Route("[controller]")]
     //[EnableCors("default")]
-    //api/uploadfiles
     public class UploadProfileImageController : Controller
     {
 
@@ -38,7 +37,7 @@ namespace skillsBackend.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public IActionResult Post()
         {
             // Prepare variables

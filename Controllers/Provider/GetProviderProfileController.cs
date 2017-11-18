@@ -33,7 +33,7 @@ namespace skillsBackend.Controllers
             Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
             var userName = jwtuser.Value;
 
-            Console.WriteLine("-- GetProviderProfile - Hardcoded user name: " + userName);
+            Console.WriteLine("-- GetProviderProfile - for the user name: " + userName);
             
             var providerSkills = (from u in _context.Users
                                   join upd in _context.UserProviderDetails on u.Id equals upd.UserId
