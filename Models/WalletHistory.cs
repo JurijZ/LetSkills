@@ -13,6 +13,7 @@ namespace skillsBackend.Models
         public decimal AvailableAmountAfter { get; set; }
         public decimal BlockedAmountAfter { get; set; }
         public DateTime TimeStamp { get; set; }
+        public string Details { get; set; }
 
         public Users User { get; set; }
         public Wallet Wallet { get; set; }

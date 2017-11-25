@@ -551,6 +551,8 @@ namespace skillsBackend.Models
 
                 entity.Property(e => e.TimeStamp).HasColumnType("datetime");
 
+                entity.Property(e => e.Details).HasMaxLength(200);
+
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.Property(e => e.WalletId).HasColumnName("WalletID");

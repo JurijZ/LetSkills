@@ -15,30 +15,30 @@ using Microsoft.AspNetCore.Http;
 namespace skillsBackend.Controllers
 {
     [Route("[controller]")]
-    public class PayPalController : Controller
+    public class PayPalDevController : Controller
     {
 
         private readonly SkillsContext _context;
         private BraintreeGateway _gateway;
-        private PayPalClientToken _clientToken;
+        private PayPalDevClientToken _clientToken;
 
-        public PayPalController(SkillsContext context)
+        public PayPalDevController(SkillsContext context)
         {
             _context = context;
-            // Production
-            _gateway = new BraintreeGateway("access_token$production$cj3qwh2hs9jf2x7t$caf9e01c1b90d4ac86e0e8e8ec1f32d6");
-            _clientToken = new PayPalClientToken();
+            // Sandbox
+            _gateway = new BraintreeGateway("access_token$sandbox$k7qv4rtj3x2sjwn2$e6106c8ddfc8a0241077b2220ed98b1f");
+            _clientToken = new PayPalDevClientToken();
         }
 
-        // GET api/paypal
+        // GET api/PayPalDev
         [HttpGet]
-        [Authorize]
-        public PayPalClientToken Get()
+        //[Authorize]
+        public PayPalDevClientToken Get()
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
-            var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
-            Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
-            var userName = jwtuser.Value;
+            //var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
+            //Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
+            //var userName = jwtuser.Value;
 
             _clientToken.clientToken = _gateway.ClientToken.Generate();
             Console.WriteLine("-- PayPal Client Token generated - " + _clientToken.clientToken);
@@ -51,7 +51,30 @@ namespace skillsBackend.Controllers
         {
             // yet to be implemented
             string nonce = collection["payment_method_nonce"];
-            return Ok();
+
+            var request = new TransactionRequest
+            {
+                Amount = 1.00M,
+                PaymentMethodNonce = nonce,
+                Options = new TransactionOptionsRequest
+                {
+                    SubmitForSettlement = true
+                }
+            };
+
+            Result<Transaction> result = _gateway.Transaction.Sale(request);
+            if (result.IsSuccess())
+            {
+                Console.WriteLine(result.Transaction.Id);
+                // Add the amount to the persons Wallet
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+            
+            
         }
 
         // POST api/joblocation
@@ -73,7 +96,7 @@ namespace skillsBackend.Controllers
         //}
     }
 
-    public class PayPalClientToken
+    public class PayPalDevClientToken
     {
         public string clientToken { get; set; }
     }
