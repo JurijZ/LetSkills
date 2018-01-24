@@ -68,7 +68,7 @@ namespace skillsBackend.Controllers
                 if (smsVerification.ObjectIdType == 1)
                 {
                     var provider = _context.UserProviderDetails
-                                    .Where(upd => upd.Id == smsVerification.ObjectId).SingleOrDefault();
+                                    .Where(upd => upd.UserId == smsVerification.ObjectId).SingleOrDefault();
 
                     provider.Telephone1Verified = provider.ContactTelephone1;
                 }

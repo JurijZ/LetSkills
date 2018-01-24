@@ -74,12 +74,12 @@ namespace skillsBackend
                                        "http://localhost:5002/client",
                                        "http://localhost:5005",
                                        "http://localhost:5005/provider",
-                                       "http://www.usefullskills.com",
-                                       "http://www.usefullskills.com/client",
-                                       "http://www.usefullskills.com/provider"
+                                       "https://www.letskills.co.uk",
+                                       "https://www.letskills.co.uk/client",
+                                       "https://www.letskills.co.uk/provider"
                                         )
                         .AllowAnyHeader()
-                        .AllowAnyMethod();
+                        .AllowAnyMethod();  // for example you can allow only Get methods
                 });
             });
 

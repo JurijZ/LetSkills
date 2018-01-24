@@ -26,7 +26,7 @@ namespace skillsBackend.Controllers
         // GET api/getclientfeedbacks/3
         [HttpGet]
         [Authorize]
-        public IEnumerable<ClientCompletedJobs> Get()
+        public async Task<IEnumerable<ClientCompletedJobs>> Get()
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
             var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
@@ -58,7 +58,7 @@ namespace skillsBackend.Controllers
                                             feedbackSubmited = jjffc.JobId
                                         };
             
-            return clientCompletedJobs;
+            return await clientCompletedJobs.ToListAsync();
         }
 
         // POST api/joblocation

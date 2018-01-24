@@ -26,7 +26,7 @@ namespace skillsBackend.Controllers
         // GET api/clientprofile
         [HttpGet]
         [Authorize]
-        public ClientBalance Get()
+        public async Task<ClientBalance> Get()
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
             var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
@@ -36,14 +36,14 @@ namespace skillsBackend.Controllers
             //string userName = "jzilcov@gmail.com"; // This value will be taken from the JWT claim
             //Console.WriteLine("-- GetClientProfile - Hardcoded user name: " + userName);
 
-            var clientBalance = (from u in _context.Users 
+            var clientBalance = await (from u in _context.Users 
                                 join w in _context.Wallet on u.Id equals w.UserId
                                 where u.Username == userName
                                 select new ClientBalance
                                 {
                                     availableAmmount = w.AvailableAmmount,
                                     blockedAmmount = w.BlockedAmmount
-                                }).SingleOrDefault();
+                                }).SingleOrDefaultAsync();
             
             Console.WriteLine("Available Amount: " + clientBalance.availableAmmount);
             

@@ -26,7 +26,7 @@ namespace skillsBackend.Controllers
         // GET api/getproviders/33
         [HttpGet("{job_id}")]
         [Authorize]
-        public IEnumerable<Providers> Get(int job_id)
+        public async Task<IEnumerable<Providers>> Get(int job_id)
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
             var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
@@ -41,14 +41,14 @@ namespace skillsBackend.Controllers
             //                      select s.Name).ToArray();
 
             // This is a security measure to make sure that only valid user can request Applications info
-            var job = (from j in _context.Jobs
-                       join u in _context.Users on j.ClientId equals u.Id
-                       where u.Username == userName && j.Id == job_id
-                       select j ).SingleOrDefault();
+            var job = await (from j in _context.Jobs
+                            join u in _context.Users on j.ClientId equals u.Id
+                            where u.Username == userName && j.Id == job_id
+                            select j ).SingleOrDefaultAsync();
 
             Console.WriteLine("-- GetApplications for the Job Id: " + job.Id);
 
-            var providers = (from a in _context.Applications
+            var providers = from a in _context.Applications
                              join u in _context.Users on a.ProviderId equals u.Id
                              join upd in _context.UserProviderDetails on u.Id equals upd.UserId
                              where a.JobId == job.Id
@@ -64,10 +64,10 @@ namespace skillsBackend.Controllers
                                      
                                     // from Skills
                                     //skills = providerSkills
-                                 });
+                                 };
         
-
-            return providers;
+            return await providers.ToListAsync(); 
+            //return providers
         }
 
         // POST api/joblocation

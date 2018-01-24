@@ -45,11 +45,11 @@ namespace skillsBackend.Controllers
 
             //-------------------- Sending SMS via Amazon SNS
             var smsCode = GenerateRandomPIN();                                  // Generate random 4 digits pin
+            Console.WriteLine("SMS code to be verified: " + smsCode);
+
             var SMSSentStatus = SendSMSviaAmazonSNS(smsCode, CleanUpTelephoneNumber(value.TelNumber));  // Send via Amazon SNS
-
             Console.WriteLine("SMS sending status: " + SMSSentStatus.Result);
-
-
+            
             //-------------------- SMSVerifications table Maintenance -------------------
             // Loggin of these deletes needs to be implemented to have visibility of failures
             // Every time Verification is requested this code deletes preveous code requests
