@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using skillsBackend.Models;
+using LetSkillsBackend.Models;
 
-namespace skillsBackend.Utilities
+namespace LetSkillsBackend.Utilities
 {
     public class Scheduler : IMyScheduler
     {

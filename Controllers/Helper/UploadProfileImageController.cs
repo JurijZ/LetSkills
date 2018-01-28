@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using skillsBackend.Models;
+using LetSkillsBackend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
@@ -20,7 +20,7 @@ using Amazon.S3.Model;
 using Amazon.Runtime.CredentialManagement;
 using Amazon.S3.Transfer;
 
-namespace skillsBackend.Controllers
+namespace LetSkillsBackend.Controllers
 {
     [Route("[controller]")]
     //[EnableCors("default")]

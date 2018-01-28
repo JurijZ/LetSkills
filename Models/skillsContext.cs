@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace skillsBackend.Models
+namespace LetSkillsBackend.Models
 {
     public partial class SkillsContext : DbContext
     {

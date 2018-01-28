@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using skillsBackend.Models;
+using LetSkillsBackend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 using Braintree;
 using Microsoft.AspNetCore.Http;
 
-namespace skillsBackend.Controllers
+namespace LetSkillsBackend.Controllers
 {
     [Route("[controller]")]
     public class PayPalController : Controller

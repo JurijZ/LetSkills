@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace skillsBackend.Models
+namespace LetSkillsBackend.Models
 {
     public partial class Applications
     {

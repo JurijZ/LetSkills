@@ -9,14 +9,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
-using skillsBackend.Models;
+using LetSkillsBackend.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Amazon.S3;
 using Amazon.SimpleNotificationService;
 using Hangfire;
-using skillsBackend.Utilities;
+using LetSkillsBackend.Utilities;
 
-namespace skillsBackend
+namespace LetSkillsBackend
 {
     public class Startup
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace skillsBackend.Models
+namespace LetSkillsBackend.Models
 {
     public partial class ClientImagesMap
     {
