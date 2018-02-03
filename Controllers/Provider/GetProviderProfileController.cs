@@ -15,7 +15,6 @@ namespace LetSkillsBackend.Controllers
     [Route("[controller]")]
     public class GetProviderProfileController : Controller
     {
-
         private readonly SkillsContext _context;
 
         public GetProviderProfileController(SkillsContext context)
@@ -29,12 +28,21 @@ namespace LetSkillsBackend.Controllers
         public ProviderProfile Get()
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
-            var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
-            Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
-            var userName = jwtuser.Value;
+            var jwtuser = User?.Claims?.Where(x => x.Type == "name").FirstOrDefault();
+            Console.WriteLine("Authenticated user name is: " + (jwtuser == null ? "unknown" : jwtuser.Value)); //it's in a {key: value} format
+            
+            // To make unit testing of the method simple 
+            #if DEBUG
+                Console.WriteLine("Debug mode (Unit Testing)"); 
+                var userName = "support@letskills.com";                 
+            #else
+                var userName = jwtuser.Value; // value is taken from the JWT claim
+            #endif
 
             Console.WriteLine("-- GetProviderProfile - for the user name: " + userName);
-            
+
+            // An empty enumerable will be returned if Provider has no skills
+            // It's not a null, just an empty enumerable, so no NullReferenceException
             var providerSkills = (from u in _context.Users
                                   join upd in _context.UserProviderDetails on u.Id equals upd.UserId
                                   join mps in _context.MapProviderSkills on upd.Id equals mps.ProviderId
@@ -55,14 +63,13 @@ namespace LetSkillsBackend.Controllers
                                     name = u.Name,
                                     surname = u.Surname,
                                     username = u.Username,
-                                    //password = u.Password,
                                     //addressId = u.AddressId,
                                     //haveAcar = u.HaveAcar,
                                     //isClient = u.IsClient,
                                     //isProvider = u.IsProvider,
                                     //lastLoginTime = u.LastLoginTime,
 
-                                     // from UserClientDetails
+                                     // from UserProviderDetails
                                      contactEmail = jjupd.ContactEmail,
                                      contactTelephone1 = jjupd.ContactTelephone1,
                                      contactTelephone2 = jjupd.ContactTelephone2,
@@ -87,19 +94,19 @@ namespace LetSkillsBackend.Controllers
             return providerProfile;
         }
 
-        // POST api/joblocation
+        // POST api/getproviderprofile
         //[HttpPost]
         //public void Post([FromBody]string value)
         //{
         //}
 
-        // PUT api/joblocation/5
+        // PUT api/getproviderprofile/5
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody]string value)
         //{
         //}
 
-        // DELETE api/joblocation/5
+        // DELETE api/getproviderprofile/5
         //[HttpDelete("{id}")]
         //public void Delete(int id)
         //{
@@ -113,7 +120,6 @@ namespace LetSkillsBackend.Controllers
         public string name { get; set; }
         public string surname { get; set; }
         public string username { get; set; }
-        //public byte[] password { get; set; }
         //public string addressId { get; set; }
         //public bool? haveAcar { get; set; }
         //public bool? isClient { get; set; }

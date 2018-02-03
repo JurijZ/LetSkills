@@ -96,7 +96,6 @@ namespace LetSkillsBackend.Controllers
         public string name { get; set; }
         //public string surname { get; set; }
         //public string username { get; set; }
-        //public byte[] password { get; set; }
         //public string addressId { get; set; }
         //public bool? haveAcar { get; set; }
         //public bool? isClient { get; set; }

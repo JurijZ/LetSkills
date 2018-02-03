@@ -504,11 +504,7 @@ namespace LetSkillsBackend.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasColumnType("binary(64)");
-
+                
                 entity.Property(e => e.Surname)
                     .IsRequired()
                     .HasMaxLength(50);

@@ -23,29 +23,33 @@ namespace LetSkillsBackend.Controllers
             _context = context;
         }
 
-        // GET api/clientprofile
+        // GET api/getclientbalance
         [HttpGet]
         [Authorize]
         public async Task<ClientBalance> Get()
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
-            var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
-            Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
-            var userName = jwtuser.Value;
-
-            //string userName = "jzilcov@gmail.com"; // This value will be taken from the JWT claim
-            //Console.WriteLine("-- GetClientProfile - Hardcoded user name: " + userName);
+            var jwtuser = User?.Claims?.Where(x => x.Type == "name").FirstOrDefault();
+            Console.WriteLine("Authenticated user name is: " + (jwtuser == null ? "unknown" : jwtuser.Value)); //it's in a {key: value} format
+            
+            // To make method unit testing simple 
+            #if DEBUG
+                Console.WriteLine("Debug mode (Unit Testing)"); 
+                var userName = "support@letskills.com";                 
+            #else
+                var userName = jwtuser.Value; // value is taken from the JWT claim
+            #endif
 
             var clientBalance = await (from u in _context.Users 
-                                join w in _context.Wallet on u.Id equals w.UserId
-                                where u.Username == userName
-                                select new ClientBalance
-                                {
-                                    availableAmmount = w.AvailableAmmount,
-                                    blockedAmmount = w.BlockedAmmount
-                                }).SingleOrDefaultAsync();
+                                        join w in _context.Wallet on u.Id equals w.UserId
+                                        where u.Username == userName
+                                        select new ClientBalance
+                                        {
+                                            availableAmmount = w.AvailableAmmount,
+                                            blockedAmmount = w.BlockedAmmount
+                                        }).SingleOrDefaultAsync();
             
-            Console.WriteLine("Available Amount: " + clientBalance.availableAmmount);
+            Console.WriteLine("-- GetClientBalanceController - Available Amount: " + clientBalance.availableAmmount);
             
             return clientBalance;
         }

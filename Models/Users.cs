@@ -27,7 +27,6 @@ namespace LetSkillsBackend.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Username { get; set; }
-        public byte[] Password { get; set; }
         public string AddressId { get; set; }
         public bool? IsClient { get; set; }
         public bool? IsProvider { get; set; }

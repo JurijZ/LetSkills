@@ -23,17 +23,24 @@ namespace LetSkillsBackend.Controllers
             _context = context;
         }
 
-        // GET api/myjobs
+        // GET api/getclientlimits
         [HttpGet]
         [Authorize]
         public ClientLimits Get()
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
-            var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
-            Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
-            var userName = jwtuser.Value;
+            var jwtuser = User?.Claims?.Where(x => x.Type == "name").FirstOrDefault();
+            Console.WriteLine("Authenticated user name is: " + (jwtuser == null ? "unknown" : jwtuser.Value)); //it's in a {key: value} format
+            
+            // To make method unit testing simple 
+            #if DEBUG
+                Console.WriteLine("Debug mode (Unit Testing)"); 
+                var userName = "support@letskills.com";                 
+            #else
+                var userName = jwtuser.Value; // value is taken from the JWT claim
+            #endif
 
-            Console.WriteLine("Requesting Client limits from the GetClientLimitsController");
+            Console.WriteLine($"Requesting Client {userName} limits from the GetClientLimitsController");
             
             // retrieve client details (max allowed active jobs field)
             var client = (from ucd in _context.UserClientDetails
@@ -41,12 +48,12 @@ namespace LetSkillsBackend.Controllers
                         where u.Username == userName
                         select ucd).SingleOrDefault();
 
-            // get the number of published Client Jobs 
+            // get the number of published Jobs by the Client
             var publishedClientJobs = (from p in _context.Jobs
-                                    join u in _context.Users on p.ClientId equals u.Id
-                                    where u.Username == userName && p.JobState == 10
-                                    select p).Count();
-
+                                      join u in _context.Users on p.ClientId equals u.Id
+                                      where u.Username == userName && p.JobState == 10  // 10 - Published Job
+                                      select p).Count();
+            
             var availableNumberOfNewPublications = client.MaxJobsAllowed - publishedClientJobs;
             Console.WriteLine("Number of available publications: " + availableNumberOfNewPublications);
 
