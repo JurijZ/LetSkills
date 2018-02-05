@@ -27,7 +27,7 @@ namespace LetSkillsBackend.Controllers
         [HttpGet]
         public IEnumerable<SkillCount> Get()
         {
-            Console.WriteLine("-- GetSkillCount");
+            Console.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.ff") + " - GetSkillCount for the Front Page");
 
             var startingSkillValues = GetStartingSkillValues();
 

@@ -32,9 +32,16 @@ namespace LetSkillsBackend.Controllers
         public string Post([FromBody] AcceptOffer value)
         {
             // Users name (it's actually an email) - for this to work in IdentityServer in the ApiClaims must be defined name (and email)
-            var jwtuser = User.Claims.Where(x => x.Type == "name").FirstOrDefault();
-            Console.WriteLine("Authenticated user name is: " + jwtuser.Value); //it's in a {key: value} format
-            var userName = jwtuser.Value;
+            var jwtuser = User?.Claims?.Where(x => x.Type == "name").FirstOrDefault();
+            Console.WriteLine("Authenticated user name is: " + (jwtuser == null ? "unknown" : jwtuser.Value)); //it's in a {key: value} format
+            
+            // To make unit testing of the method simple 
+            #if DEBUG
+                Console.WriteLine("Debug mode (Unit Testing)"); 
+                var userName = "support@letskills.com";                 
+            #else
+                var userName = jwtuser.Value; // value is taken from the JWT claim
+            #endif
 
             DateTime currentTime = DateTime.Now;
 
