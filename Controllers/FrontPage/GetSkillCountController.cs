@@ -24,10 +24,11 @@ namespace LetSkillsBackend.Controllers
         }
 
         // GET api/getskillcount
+        // This endpoint is used to ping the website every x minutes by a scheduled API call, simply to make web site not to hibernate
         [HttpGet]
         public IEnumerable<SkillCount> Get()
         {
-            Console.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.ff") + " - GetSkillCount for the Front Page");
+            Console.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.ff") + " - GetSkillCount call from the Scheduled Pinger");
 
             var startingSkillValues = GetStartingSkillValues();
 
